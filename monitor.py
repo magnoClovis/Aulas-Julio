@@ -16,11 +16,12 @@ def controle():
     if not os.path.exists("historiador.txt"): # se o arquivo não existir, isso indica que o programa está iniciando então é solicitado href para ser enviado ao servidor
         href = input("Input href: ")
         s.sendall(bytes(href,"utf-8"))
-        with open('historiador.txt', 'a', encoding='utf8') as f:
+        
+        with open('historiador.txt', 'a', encoding='utf8') as f: # coloca no topo do arquivo o valor digitado de Href
             f.write(f"Href: {href} m")
             f.write("\n\n")
-            
         f.close()
+    
     
     while True:
         msg = s.recv(1024) # 1024 é o buffer
@@ -33,6 +34,8 @@ def controle():
         f.close()
         s.close()
         controle()
+
+
 
 if os.path.exists("historiador.txt"):  # se o arquivo já existir antes do início, então ele será apagado para começar outro do zero
     os.remove("historiador.txt")
