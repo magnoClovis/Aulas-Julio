@@ -31,11 +31,11 @@ def process_thread(x, y, params):
 def softPLC_thread(x, y, params, href = 0):
     altura = params['altura']
     if href == 0:
-        href = altura*0.97
+        href = altura*0.95
     
-    if y[-1] > href*0.97:
+    if y[-1] > href*0.95:
       x = 0
-    elif y[-1] < href*0.85:
+    elif y[-1] < href*0.80:
       x = params['fluxo_entrada']
     
     return x

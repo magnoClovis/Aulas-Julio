@@ -11,20 +11,30 @@ import sys
 
 def controle():
     s  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((socket.gethostname(),60000))
+    s.connect((socket.gethostname(),65432))
     
+    if not os.path.exists("historiador.txt"): # se o arquivo não existir, isso indica que o programa está iniciando então é solicitado href para ser enviado ao servidor
+        href = input("Input href: ")
+        s.sendall(bytes(href,"utf-8"))
+        with open('historiador.txt', 'a', encoding='utf8') as f:
+            f.write(f"Href: {href} m")
+            f.write("\n\n")
+            
+        f.close()
     
-    full_msg = ""
     while True:
-        #href = input("Input href: ")
-        #s.send(bytes(href,"utf-8"))
         msg = s.recv(1024) # 1024 é o buffer
         
         print(msg.decode("utf-8"))
         with open('historiador.txt', 'a', encoding='utf8') as f:
-            f.writelines(str(msg))
+            f.write(str(msg))
+            f.write("\n")
+            
         f.close()
+        s.close()
         controle()
 
+if os.path.exists("historiador.txt"):  # se o arquivo já existir antes do início, então ele será apagado para começar outro do zero
+    os.remove("historiador.txt")
 
 controle()
